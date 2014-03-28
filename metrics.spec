@@ -1,6 +1,6 @@
 Name:          metrics
 Version:       3.0.1
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Java library which gives you what your code does in production
 License:       ASL 2.0
 URL:           http://metrics.codahale.com/
@@ -317,6 +317,9 @@ rm -rf docs/target/singlehtml/.buildinfo
 %endif
 
 %changelog
+* Fri Mar 28 2014 Michael Simacek <msimacek@redhat.com> - 3.0.1-2
+- Use Requires: java-headless rebuild (#1067528)
+
 * Sat Aug 03 2013 gil cattaneo <puntogil@libero.it> 3.0.1-1
 - update to 3.0.1
 
