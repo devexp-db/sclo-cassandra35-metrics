@@ -18,7 +18,7 @@ BuildRequires: mvn(info.ganglia.gmetric4j:gmetric4j)
 # Multiple package with the same gId:aId
 BuildRequires: glassfish-servlet-api
 # BuildRequires: mvn(javax.servlet:javax.servlet-api:3.1.0)
-BuildRequires: mvn(log4j:log4j)
+BuildRequires: log4j12
 BuildRequires: mvn(net.sf.ehcache:ehcache-core)
 BuildRequires: mvn(org.apache.httpcomponents:httpclient)
 BuildRequires: mvn(org.jdbi:jdbi)
@@ -43,7 +43,7 @@ BuildRequires: mvn(org.slf4j:slf4j-simple)
 
 BuildRequires: maven-local
 BuildRequires: maven-plugin-bundle
-BuildRequires: maven-surefire-provider-junit4
+BuildRequires: maven-surefire-provider-junit
 
 # Docs deps
 BuildRequires: python-sphinx
@@ -160,6 +160,7 @@ using Metrics.
 
 %package log4j
 Summary:       Metrics Integration for Log4j
+Requires:      log4j12
 
 %description log4j
 An instrumented appender for Log4j.
