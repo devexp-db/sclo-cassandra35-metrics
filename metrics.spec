@@ -1,12 +1,10 @@
 Name:          metrics
 Version:       3.0.1
-Release:       3%{?dist}
+Release:       4%{?dist}
 Summary:       Java library which gives you what your code does in production
 License:       ASL 2.0
 URL:           http://metrics.codahale.com/
 Source0:       https://github.com/codahale/metrics/archive/v%{version}.tar.gz
-
-BuildRequires: java-devel
 
 # Core deps
 BuildRequires: mvn(org.slf4j:slf4j-api)
@@ -15,10 +13,8 @@ BuildRequires: mvn(ch.qos.logback:logback-classic)
 BuildRequires: mvn(com.fasterxml.jackson.core:jackson-databind)
 BuildRequires: mvn(com.sun.jersey:jersey-server)
 BuildRequires: mvn(info.ganglia.gmetric4j:gmetric4j)
-# Multiple package with the same gId:aId
-BuildRequires: glassfish-servlet-api
-# BuildRequires: mvn(javax.servlet:javax.servlet-api:3.1.0)
-BuildRequires: log4j12
+BuildRequires: mvn(javax.servlet:javax.servlet-api)
+BuildRequires: mvn(log4j:log4j:1.2.17)
 BuildRequires: mvn(net.sf.ehcache:ehcache-core)
 BuildRequires: mvn(org.apache.httpcomponents:httpclient)
 BuildRequires: mvn(org.jdbi:jdbi)
@@ -43,7 +39,6 @@ BuildRequires: mvn(org.slf4j:slf4j-simple)
 
 BuildRequires: maven-local
 BuildRequires: maven-plugin-bundle
-BuildRequires: maven-surefire-provider-junit
 
 # Docs deps
 BuildRequires: python-sphinx
@@ -173,8 +168,6 @@ An instrumented appender for Logback.
 
 %package servlet
 Summary:       Metrics Integration for Servlets
-# multiple package with the same gId:aId
-Requires:      glassfish-servlet-api
 
 %description servlet
 An instrumented filter for servlet environments.
@@ -252,72 +245,76 @@ rm -rf docs/target/singlehtml/.buildinfo
 
 %files  -f .mfiles-%{name}
 %dir %{_javadir}/%{name}
-%doc LICENSE NOTICE README.md
+%doc README.md
+%license LICENSE NOTICE
 
 %files annotation -f .mfiles-%{name}-annotation
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %if 0
 %files benchmarks -f .mfiles-%{name}-benchmarks
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 %endif
 
 %files ehcache -f .mfiles-%{name}-ehcache
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %files ganglia -f .mfiles-%{name}-ganglia
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %files graphite -f .mfiles-%{name}-graphite
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %files healthchecks -f .mfiles-%{name}-healthchecks
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %files httpclient -f .mfiles-%{name}-httpclient
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %files jdbi -f .mfiles-%{name}-jdbi
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %files jersey -f .mfiles-%{name}-jersey
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %if 0
 %files jetty -f .mfiles-%{name}-jetty
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 %endif
 
 %files json -f .mfiles-%{name}-json
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %files jvm -f .mfiles-%{name}-jvm
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %files log4j -f .mfiles-%{name}-log4j
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %files logback -f .mfiles-%{name}-logback
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %files servlet -f .mfiles-%{name}-servlet
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %files servlets -f .mfiles-%{name}-servlets
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %files javadoc -f .mfiles-javadoc
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 %files doc
 %{_mandir}/man1/%{name}.*
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 %doc docs/target/singlehtml
 %if 0
 %doc docs/target/latex/*.pdf
 %endif
 
 %changelog
+* Tue Feb 10 2015 gil cattaneo <puntogil@libero.it> 3.0.1-4
+- introduce license macro
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
