@@ -1,23 +1,23 @@
 Name:          metrics
 Version:       3.0.1
-Release:       4%{?dist}
+Release:       5%{?dist}
 Summary:       Java library which gives you what your code does in production
 License:       ASL 2.0
-URL:           http://metrics.codahale.com/
-Source0:       https://github.com/codahale/metrics/archive/v%{version}.tar.gz
+URL:           http://metrics.dropwizard.io
+Source0:       https://github.com/dropwizard/metrics/archive/v%{version}.tar.gz
 
-# Core deps
-BuildRequires: mvn(org.slf4j:slf4j-api)
-# Others module deps
+BuildRequires: maven-local
 BuildRequires: mvn(ch.qos.logback:logback-classic)
 BuildRequires: mvn(com.fasterxml.jackson.core:jackson-databind)
-BuildRequires: mvn(com.sun.jersey:jersey-server)
+BuildRequires: mvn(com.sun.jersey:jersey-server:1.19)
 BuildRequires: mvn(info.ganglia.gmetric4j:gmetric4j)
 BuildRequires: mvn(javax.servlet:javax.servlet-api)
 BuildRequires: mvn(log4j:log4j:1.2.17)
 BuildRequires: mvn(net.sf.ehcache:ehcache-core)
+BuildRequires: mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires: mvn(org.apache.httpcomponents:httpclient)
 BuildRequires: mvn(org.jdbi:jdbi)
+BuildRequires: mvn(org.slf4j:slf4j-api)
 
 %if 0
 # metrics-jetty9 deps
@@ -29,16 +29,13 @@ BuildRequires: mvn(com.google.caliper:caliper:1.0-beta-1)
 BuildRequires: mvn(com.google.guava:guava:14.0.1)
 
 # Test deps
-BuildRequires: mvn(com.sun.jersey.jersey-test-framework:jersey-test-framework-inmemory)
+BuildRequires: mvn(com.sun.jersey.jersey-test-framework:jersey-test-framework-inmemory:1.19)
 BuildRequires: mvn(junit:junit)
 BuildRequires: mvn(org.easytesting:fest-assert-core:2.0M10)
 BuildRequires: mvn(org.eclipse.jetty:jetty-servlet)
 BuildRequires: mvn(org.mockito:mockito-all)
 BuildRequires: mvn(org.slf4j:slf4j-simple)
 %endif
-
-BuildRequires: maven-local
-BuildRequires: maven-plugin-bundle
 
 # Docs deps
 BuildRequires: python-sphinx
@@ -155,7 +152,9 @@ using Metrics.
 
 %package log4j
 Summary:       Metrics Integration for Log4j
+%if %{?fedora} > 20
 Requires:      log4j12
+%endif
 
 %description log4j
 An instrumented appender for Log4j.
@@ -212,17 +211,20 @@ find . -name "*.jar" -type f -delete
 %pom_remove_plugin :maven-enforcer-plugin
 
 # Disable javadoc jar
-%pom_xpath_remove "pom:project/pom:build/pom:plugins/pom:plugin[pom:artifactId='maven-javadoc-plugin']/pom:executions"
+%pom_xpath_remove "pom:plugins/pom:plugin[pom:artifactId='maven-javadoc-plugin']/pom:executions"
 # Disable source jar
 %pom_remove_plugin :maven-source-plugin
 
-%build
+%pom_xpath_set "pom:properties/pom:jersey.version" 1.19 %{name}-jersey
 
 %mvn_package ":%{name}-core" %{name}
 %mvn_package ":%{name}-parent" %{name}
 %if 0
 %mvn_package ":%{name}-jetty9" %{name}-jetty
 %endif
+
+%build
+
 # Unavailable test dep *
 %mvn_build -s -f
 
@@ -312,6 +314,9 @@ rm -rf docs/target/singlehtml/.buildinfo
 %endif
 
 %changelog
+* Fri May 29 2015 gil cattaneo <puntogil@libero.it> 3.0.1-5
+- rebuilt with jersey 1.19
+
 * Tue Feb 10 2015 gil cattaneo <puntogil@libero.it> 3.0.1-4
 - introduce license macro
 
