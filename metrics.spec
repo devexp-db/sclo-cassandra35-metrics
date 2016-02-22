@@ -1,6 +1,6 @@
 Name:          metrics
 Version:       3.1.2
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Java library which gives you what your code does in production
 License:       ASL 2.0
 URL:           http://metrics.dropwizard.io
@@ -372,6 +372,9 @@ rm -rf docs/target/singlehtml/.buildinfo
 %endif
 
 %changelog
+* Mon Feb 22 2016 gil cattaneo <puntogil@libero.it> - 3.1.2-3
+- rebuilt
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
